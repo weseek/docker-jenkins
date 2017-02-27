@@ -1,13 +1,14 @@
 # イメージで使う Jenkins のアップデート方法
-## weseek/docker-jenkins 
-githubに管理されているリポジトリからクローン。
+
+## weseek/docker-jenkins
+githubに管理されているリポジトリからクローン。  
 https://github.com/weseek/docker-jenkins.git
 
 ## jenkins のアップデート方法
-git クローン後、ディレクトリ直下にあるDockerfileを修正する。
+git クローン後、ディレクトリ直下にあるDockerfileを修正する。  
 `「FROM jenkins:X.XX.X」の部分を修正。`
 
-最新バージョンはdocker-hubの公式イメージから参照する。
+最新バージョンはdocker-hubの公式イメージから参照する。  
 https://hub.docker.com/r/_/jenkins/
 
 ``` Dockerfile
@@ -37,13 +38,14 @@ COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 ```
 
-##docker-jenkins イメージの更新
-Dockerfile又はplugins.txtファイルを書き換え後、リポジトリにpushを行う。
+## docker-jenkins イメージの更新
+Dockerfile又はplugins.txtファイルを書き換え後、リポジトリにpushを行う。  
 `尚pushの際には、コミットログにタグを必ず普及する。`
+
 ### git コミットにタグを追加する方法
 https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%BF%E3%82%B
 
-push後、下記のURLからイメージが更新されたことを確認。
+push後、下記のURLからイメージが更新されたことを確認。  
 https://hub.docker.com/r/weseek/docker-jenkins/~/dockerfile/
 
 ## dockerコンテナの更新
@@ -54,7 +56,7 @@ $ docker pull  weseek/docker-jenkins
 ```
 dockerイメージ更新後、下記コマンド実行して、既存コンテナを削除。
 ```
-$ docker rm jenkins_app_1 -f 
+$ docker rm jenkins_app_1 -f
 ```
 
 下記コマンドを実行し、コンテナを新規作成する。
