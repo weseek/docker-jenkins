@@ -40,7 +40,7 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 ## docker-jenkins イメージの更新
 Dockerfile又はplugins.txtファイルを書き換え後、リポジトリにpushを行う。  
-`尚pushの際には、コミットログにタグを必ず普及する。`
+`尚pushの際には、コミットログにタグを必ず付加する。`
 
 ### git コミットにタグを追加する方法
 https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%BF%E3%82%B

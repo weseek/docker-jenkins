@@ -68,6 +68,6 @@ $ docker exec jenkins_app_1 cat /var/jenkins_home/secrets/initialAdminPassword
 その後「Jenkinsの管理」から、「プラグインの管理」でインストール済みのプラグインを確認し、
 docker-imageで設定されたプラグインがすべてインストールされていることを確認。
 
-### Tips
+## Tips
 - [プラグインの管理](Plugin.md)
 - [イメージで使う Jenkins のアップデート方法](Update.md)
