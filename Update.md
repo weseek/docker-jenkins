@@ -12,7 +12,7 @@ git クローン後、ディレクトリ直下にあるDockerfileを修正する
 https://hub.docker.com/r/_/jenkins/
 
 ``` Dockerfile
-FROM jenkins:2.32.1
+FROM jenkins:2.32.2
 USER root
 ARG user=jenkins
 
@@ -40,10 +40,13 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 ## docker-jenkins イメージの更新
 Dockerfile又はplugins.txtファイルを書き換え後、リポジトリにpushを行う。  
-`尚pushの際には、コミットログにタグを必ず付加する。`
+`尚pushの際には、コミットにタグを必ず付加する。`
 
 ### git コミットにタグを追加する方法
 https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%BF%E3%82%B
+
+`コミットタグは、jenkinsLTSのバージョンに追従すること`  
+jenkinsLTSのバージョンが2.32.2の場合、コミットタグは「2.32.2」と入力する。
 
 push後、下記のURLからイメージが更新されたことを確認。  
 https://hub.docker.com/r/weseek/docker-jenkins/~/dockerfile/
