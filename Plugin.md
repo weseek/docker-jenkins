@@ -34,7 +34,7 @@ publish-over-ssh:1.17
 既存jenkinsから、plugin.txt形式の一覧を取得するには以下のコマンドをたたく必要がある。  
 `ユーザー認証が必要ない場合は、-u $USER_NAME:$API_TOKENの設定値は必要がなし。`
 ``` .sh
-$ curl -X GET -u $USER_NAME:$API_TOKEN -sSL "$JENKINS_URL:$JENKINS_PORT/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/
+$ curl -X GET -u $USER_NAME:$API_TOKEN -sSL "$JENKINS_URL:$JENKINS_PORT/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
 ```
 
 ### APIトークンの取得手順
