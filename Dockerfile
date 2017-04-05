@@ -10,6 +10,8 @@ RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc
 
 # apt install && update
 RUN apt-get update && apt-get install -y google-chrome-stable xvfb sudo fonts-vlgothic
+# update mercurial from backports for TLS SNI support
+RUN apt-get -y -t jessie-backports install mercurial
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 #font
