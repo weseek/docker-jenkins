@@ -1,34 +1,37 @@
 FROM jenkins:2.46.1
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
-USER root
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
-# chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+USER root
 
-# apt install && update
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get install -y google-chrome-stable xvfb sudo fonts-vlgothic
+# add an apt repository of chrome
+# google-chrome.list will be overwritten by installing google-chrome-stabe
+RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+
+# install and update several packages for CI
 # update mercurial from backports for TLS SNI support
-RUN apt-get -y -t jessie-backports install mercurial
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends apt-utils apt-transport-https \
+  && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic \
+  && apt-get install -y --no-install-recommends -t jessie-backports mercurial \
+  && rm -rf /var/lib/apt/lists/*
 
-# font
+# link japanese font in java
 RUN mkdir -p /usr/lib/jvm/java-8-openjdk-amd64/jre/font/fallback
 RUN ln -s /usr/share/fonts/truetype/vlgothic/VL-PGothic-Regular.ttf /usr/lib/jvm/java-8-openjdk-amd64/jre/font/fallback/
 
-# sudo
+# setup sudo
 RUN sed -i -e 's/%sudo\s*ALL=(ALL:ALL)\sALL/%sudo   ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
 RUN usermod -aG sudo ${user}
 
-# timezone
+# set timezone to JST
 RUN echo "Asia/Tokyo" > /etc/timezone
 RUN dpkg-reconfigure tzdata
 
-# jenkins plugin
+# install jenkins plugin
 USER ${user}
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 RUN cat /usr/share/jenkins/plugins.txt | xargs /usr/local/bin/install-plugins.sh
