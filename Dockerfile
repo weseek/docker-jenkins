@@ -1,4 +1,4 @@
-FROM jenkins:2.46.2
+FROM jenkins:2.60.1
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
 ARG user=jenkins
