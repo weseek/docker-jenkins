@@ -13,7 +13,7 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sou
 
 # install and update several packages for CI
 # update mercurial from backports for TLS SNI support
-RUN apt-get update \
+RUN apt-get update -y \
   && apt-get install -y --no-install-recommends apt-utils apt-transport-https \
   && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic \
   && apt-get install -y --no-install-recommends -t jessie-backports mercurial \
