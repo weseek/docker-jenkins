@@ -1,4 +1,4 @@
-FROM jenkins:2.60.3
+FROM jenkins/jenkins:2.73.2-slim
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
 ARG user=jenkins
@@ -8,6 +8,7 @@ USER root
 
 # add an apt repository of chrome
 # google-chrome.list will be overwritten by installing google-chrome-stabe
+RUN apt-get update -y && apt-get install -y --no-install-recommends gnupg && rm -rf /var/lib/apt/lists/*
 RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
 
@@ -15,8 +16,7 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sou
 # update mercurial from backports for TLS SNI support
 RUN apt-get update -y \
   && apt-get install -y --no-install-recommends apt-utils apt-transport-https \
-  && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic \
-  && apt-get install -y --no-install-recommends -t jessie-backports mercurial \
+  && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic mercurial \
   && rm -rf /var/lib/apt/lists/*
 
 # link japanese font in java
