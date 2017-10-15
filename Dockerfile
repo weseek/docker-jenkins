@@ -31,6 +31,7 @@ RUN sed -i -e 's/%sudo\s*ALL=(ALL:ALL)\sALL/%sudo   ALL=(ALL:ALL) NOPASSWD: ALL/
 RUN usermod -aG sudo ${user}
 
 # set timezone to JST
+RUN rm -f /etc/localtime
 RUN echo "Asia/Tokyo" > /etc/timezone
 RUN dpkg-reconfigure tzdata
 
