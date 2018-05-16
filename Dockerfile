@@ -4,6 +4,9 @@ MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com>
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
+ARG DOCKER_CLI_VERSION=18.03.1-ce
+ARG DOCKER_HOST_GID=999
+
 USER root
 
 # install prerequirement tools, and upgrade
@@ -21,6 +24,13 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sou
 RUN apt-get update -y \
   && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic mercurial \
   && rm -rf /var/lib/apt/lists/*
+
+# install docker client
+RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz | tar -xz -C /tmp \
+  && mv /tmp/docker/docker /usr/local/bin \
+  && rm -r /tmp/docker*
+RUN groupadd -g ${DOCKER_HOST_GID} docker
+RUN usermod -aG docker jenkins
 
 # link japanese font in java
 RUN mkdir -p /usr/lib/jvm/java-8-openjdk-amd64/jre/font/fallback
