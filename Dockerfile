@@ -1,10 +1,10 @@
-FROM jenkins/jenkins:2.121.3-slim
+FROM jenkins/jenkins:2.138.1-slim
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG DOCKER_CLI_VERSION=18.03.1-ce
+ARG DOCKER_CLI_VERSION=18.06.1-ce
 ARG DOCKER_HOST_GID=999
 
 USER root
