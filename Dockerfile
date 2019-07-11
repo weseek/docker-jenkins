@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.138.4-slim
+FROM jenkins/jenkins:2.176.1-slim
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
 ARG user=jenkins
@@ -33,12 +33,8 @@ RUN groupadd -g ${DOCKER_HOST_GID} docker
 RUN usermod -aG docker jenkins
 
 # link japanese font in java
-RUN mkdir -p /usr/lib/jvm/java-8-openjdk-amd64/jre/font/fallback
-RUN ln -s /usr/share/fonts/truetype/vlgothic/VL-PGothic-Regular.ttf /usr/lib/jvm/java-8-openjdk-amd64/jre/font/fallback/
-
-# fix loading JFreeChart
-# see: https://stackoverflow.com/questions/21841269/performance-graphs-on-jenkins-causing-could-not-initialize-class-org-jfree-char#comment76900079_41428450
-RUN sed -i 's/^assistive_technologies=/#&/' /etc/java-8-openjdk/accessibility.properties
+RUN mkdir -p ${JAVA_HOME}/jre/lib/fonts/fallback
+RUN ln -s /usr/share/fonts/truetype/vlgothic/VL-PGothic-Regular.ttf ${JAVA_HOME}/jre/lib/fonts/fallback
 
 # setup sudo
 RUN sed -i -e 's/%sudo\s*ALL=(ALL:ALL)\sALL/%sudo   ALL=(ALL:ALL) NOPASSWD: ALL/g' /etc/sudoers
