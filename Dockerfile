@@ -4,7 +4,7 @@ MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com>
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG DOCKER_CLI_VERSION=18.06.1-ce
+ARG DOCKER_CLI_VERSION=20.10.3
 ARG DOCKER_HOST_GID=999
 
 USER root
