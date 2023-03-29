@@ -1,10 +1,10 @@
-FROM jenkins/jenkins:2.263.4-slim
+FROM jenkins/jenkins:2.387.1-lts-slim
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG DOCKER_CLI_VERSION=20.10.3
+ARG DOCKER_CLI_VERSION=23.0.2
 ARG DOCKER_HOST_GID=999
 
 USER root
@@ -48,4 +48,4 @@ RUN dpkg-reconfigure tzdata
 # install jenkins plugin
 USER ${user}
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-RUN cat /usr/share/jenkins/plugins.txt | xargs /usr/local/bin/install-plugins.sh
+RUN jenkins-plugin-cli -f /usr/share/jenkins/plugins.txt
