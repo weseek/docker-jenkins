@@ -4,7 +4,6 @@ MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com>
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
-ARG DOCKER_CLI_VERSION=23.0.2
 ARG DOCKER_HOST_GID=999
 
 USER root
@@ -20,15 +19,20 @@ RUN apt-get update -y \
 RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
 
+# add an apt repository for docker
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+RUN echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 # install several packages for CI
 RUN apt-get update -y \
-  && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic mercurial \
+  && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic \
+    docker-ce-cli docker-buildx-plugin docker-compose-plugin \
   && rm -rf /var/lib/apt/lists/*
 
-# install docker client
-RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz | tar -xz -C /tmp \
-  && mv /tmp/docker/docker /usr/local/bin \
-  && rm -r /tmp/docker*
+# prepare for docker client
 RUN groupadd -g ${DOCKER_HOST_GID} docker
 RUN usermod -aG docker jenkins
 
