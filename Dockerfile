@@ -1,10 +1,8 @@
-FROM jenkins/jenkins:2.387.1-lts-slim
+FROM jenkins/jenkins:2.426.3-lts
 MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
 
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
-
-ARG DOCKER_HOST_GID=999
 
 USER root
 
@@ -31,10 +29,6 @@ RUN apt-get update -y \
   && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic \
     docker-ce-cli docker-buildx-plugin docker-compose-plugin \
   && rm -rf /var/lib/apt/lists/*
-
-# prepare for docker client
-RUN groupadd -g ${DOCKER_HOST_GID} docker
-RUN usermod -aG docker jenkins
 
 # link japanese font in java
 RUN mkdir -p ${JAVA_HOME}/jre/lib/fonts/fallback
