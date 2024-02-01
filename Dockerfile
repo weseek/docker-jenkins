@@ -4,6 +4,8 @@ MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com>
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
 
+ARG DOCKER_HOST_GID=999
+
 USER root
 
 # install prerequirement tools, and upgrade
@@ -29,6 +31,11 @@ RUN apt-get update -y \
   && apt-get install -y --no-install-recommends google-chrome-stable xvfb sudo fonts-vlgothic \
     docker-ce-cli docker-buildx-plugin docker-compose-plugin \
   && rm -rf /var/lib/apt/lists/*
+
+# prepare for docker client
+# GID: 999 already exists as systemd-journal, so ignore errors when groupadd fails.
+RUN groupadd -g ${DOCKER_HOST_GID} docker || true
+RUN usermod -aG ${DOCKER_HOST_GID} jenkins
 
 # link japanese font in java
 RUN mkdir -p ${JAVA_HOME}/jre/lib/fonts/fallback
