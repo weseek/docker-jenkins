@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:2.492.3-lts
-MAINTAINER Yusuke Takagi <heatwave.takagi@gmail.com> 
+MAINTAINER Koki Oyatsu <kouki@weseek.co.jp>
 
 ARG user=jenkins
 ENV DEBIAN_FRONTEND noninteractive
