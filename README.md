@@ -1,13 +1,15 @@
 # docker-jenkins
 
-## Startup
+## image の使い方
 
 ### docker インストール
-`公式サイトを参照`  
+公式サイトを参照
+
 https://docs.docker.com/engine/installation/linux/
 
 ### docker-compose インストール
-`公式サイトを参照`  
+公式サイトを参照
+
 https://docs.docker.com/compose/install/
 
 ### systemctl 起動コマンドの設定
