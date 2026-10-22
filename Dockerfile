@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.504.1-lts
+FROM jenkins/jenkins:2.516.3-lts
 MAINTAINER Koki Oyatsu <kouki@weseek.co.jp>
 
 ARG user=jenkins
